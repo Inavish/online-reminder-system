@@ -16,9 +16,14 @@ const ReminderForm = () => {
   const handleAddReminder = (e) => {
     e.preventDefault();
     if (!title || !datetime) return;
+    console.log("check===>", new Date(datetime).toISOString());
 
     reminderService
-      .createReminder({ title, description, send_at: datetime })
+      .createReminder({
+        title,
+        description,
+        send_at: new Date(datetime).toISOString(),
+      })
       .then((res) => {
         console.log(res);
         alert("Reminder Created");

@@ -5,7 +5,7 @@ function startCron() {
   // runs every minute
   cron.schedule("* * * * *", async () => {
     console.log("Running reminder cron at", new Date());
-    await processDueReminders();
+    processDueReminders();
   });
 }
 
