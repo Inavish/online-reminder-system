@@ -5,6 +5,7 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import Dashboard from "./components/Dashboard";
+import Profile from "./components/Profile";
 
 export default function App() {
   return (
@@ -18,6 +19,14 @@ export default function App() {
           element={
             <ProtectedRoutes>
               <Dashboard />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoutes>
+              <Profile />
             </ProtectedRoutes>
           }
         />

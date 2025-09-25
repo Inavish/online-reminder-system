@@ -6,6 +6,23 @@ const createReminderInDb = async (reminderData) => {
   return reminder;
 };
 
+async function getUpComingReminderFromDb(user) {
+  return await db("reminders")
+    .where("user_id", user.id)
+    .andWhere("send_at", ">=", new Date())
+    .andWhere("sent", false)
+    .orderBy("send_at", "asc");
+}
+
+async function getReminderById(id) {
+  const reminder = await db("reminders").where("id", id).first();
+  return reminder || null;
+}
+
+async function deleteReminderById(id) {
+  return await db("reminders").where("id", id).del();
+}
+
 /**
  * Fetch all due reminders (not yet sent) with user email.
  * @param {Date} now - Current date/time
@@ -37,4 +54,7 @@ module.exports = {
   createReminderInDb,
   getDueReminders,
   markAsSent,
+  getUpComingReminderFromDb,
+  getReminderById,
+  deleteReminderById,
 };
