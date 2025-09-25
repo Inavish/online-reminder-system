@@ -15,12 +15,12 @@ const Login = () => {
       .login({ email, password })
       .then((res) => {
         alert("Login successful!");
-
-        // navigate("/dashboard"); // Example route
+        localStorage.setItem("token", res?.data?.token);
+        navigate("/dashboard");
       })
       .catch((err) => {
         console.error(err);
-        alert(err.message || "Login failed");
+        alert(err.response.data.error || "Login failed");
       });
   };
 
