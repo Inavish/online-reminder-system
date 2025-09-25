@@ -1,12 +1,23 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
+const dotenv = require("dotenv");
+
+// Load .env file
+const env = dotenv.config().parsed || {};
+
+// Convert environment variables to string for DefinePlugin
+const envKeys = Object.keys(env).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(env[next]);
+  return prev;
+}, {});
 
 module.exports = {
   entry: "./src/index.jsx",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
-    clean: true, // Clean dist before build
+    clean: true,
   },
   mode: "development",
   resolve: {
@@ -21,7 +32,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"], // For CSS imports
+        use: ["style-loader", "css-loader"],
       },
     ],
   },
@@ -29,11 +40,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./public/index.html",
     }),
+    new webpack.DefinePlugin(envKeys), // <-- Inject environment variables
   ],
   devServer: {
     static: path.resolve(__dirname, "dist"),
     port: 3000,
     hot: true,
     open: true,
+    historyApiFallback: true,
   },
 };
