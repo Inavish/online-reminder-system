@@ -6,11 +6,16 @@ const dotenv = require("dotenv");
 module.exports = (env, argv) => {
   const isDev = argv.mode === "development";
 
+  // Load from .env.* files if they exist (for local dev)
   const envFilePath = isDev ? ".env.development" : ".env.production";
-  const envVars = dotenv.config({ path: envFilePath }).parsed || {};
+  const fileEnv = dotenv.config({ path: envFilePath }).parsed || {};
 
-  const envKeys = Object.keys(envVars).reduce((prev, next) => {
-    prev[`process.env.${next}`] = JSON.stringify(envVars[next]);
+  // Merge file env + process.env (Vercel/Render injects here)
+  const finalEnv = { ...process.env, ...fileEnv };
+
+  // Turn into DefinePlugin format
+  const envKeys = Object.keys(finalEnv).reduce((prev, next) => {
+    prev[`process.env.${next}`] = JSON.stringify(finalEnv[next]);
     return prev;
   }, {});
 
