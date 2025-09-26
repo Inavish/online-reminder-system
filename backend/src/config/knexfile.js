@@ -1,6 +1,10 @@
-require("dotenv").config({
-  path: require("path").resolve(__dirname, "../../.env"),
-});
+const path = require("path");
+
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config({
+    path: path.resolve(__dirname, ".env"),
+  });
+}
 
 module.exports = {
   development: {
@@ -9,6 +13,18 @@ module.exports = {
       connectionString: process.env.DATABASE_URL,
       ssl: { rejectUnauthorized: false },
     },
-    migrations: { directory: __dirname + "/../migrations" },
+    migrations: {
+      directory: path.resolve(__dirname, "migrations"),
+    },
+  },
+  production: {
+    client: "pg",
+    connection: {
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false },
+    },
+    migrations: {
+      directory: path.resolve(__dirname, "migrations"),
+    },
   },
 };
