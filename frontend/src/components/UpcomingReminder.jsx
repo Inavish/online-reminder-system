@@ -27,6 +27,10 @@ const ReminderList = ({ r, index, handleDelete }) => {
           </Button>
         </Box>
       }
+      sx={{
+        width: { xs: "100%", sm: "auto" },
+        px: { xs: 1, sm: 3 },
+      }}
     >
       <ListItemText
         primary={r.title}
