@@ -147,13 +147,3 @@ This keeps components decoupled and avoids global state for this small feature.
 
 - Client-side: `ReminderForm` blocks past datetimes and sets the `min` for the picker to current time.
 - Server-side: `POST /reminders/create` rejects requests with `send_at < now`.
-
-## Development tips
-
-- Use your browser devtools network tab to verify API calls and payloads
-- For date/time issues, log both local time and `toISOString()` on the client
-- If your DB is in a different timezone, prefer comparing using UTC consistently
-
-## License
-
-See `LICENSE`.
