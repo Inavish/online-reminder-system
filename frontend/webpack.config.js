@@ -3,15 +3,16 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 const dotenv = require("dotenv");
 
-// Load environment variables from .env
-const env = dotenv.config().parsed || {};
-const envKeys = Object.keys(env).reduce((prev, next) => {
-  prev[`process.env.${next}`] = JSON.stringify(env[next]);
-  return prev;
-}, {});
-
 module.exports = (env, argv) => {
   const isDev = argv.mode === "development";
+
+  const envFilePath = isDev ? ".env.development" : ".env.production";
+  const envVars = dotenv.config({ path: envFilePath }).parsed || {};
+
+  const envKeys = Object.keys(envVars).reduce((prev, next) => {
+    prev[`process.env.${next}`] = JSON.stringify(envVars[next]);
+    return prev;
+  }, {});
 
   return {
     entry: "./src/index.jsx",
@@ -42,7 +43,7 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: "./public/index.html",
       }),
-      new webpack.DefinePlugin(envKeys), // replace process.env.* in browser
+      new webpack.DefinePlugin(envKeys), // replaces process.env.* in the browser
     ],
     devServer: {
       static: path.resolve(__dirname, "dist"),
@@ -52,7 +53,6 @@ module.exports = (env, argv) => {
       historyApiFallback: true, // React Router support
     },
     performance: {
-      hints: "warning", // keeps warnings for large bundles
       maxAssetSize: 512000,
       maxEntrypointSize: 512000,
     },
