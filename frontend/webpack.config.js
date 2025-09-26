@@ -3,10 +3,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 const dotenv = require("dotenv");
 
-// Load .env file
+// Load environment variables
 const env = dotenv.config().parsed || {};
-
-// Convert environment variables to string for DefinePlugin
 const envKeys = Object.keys(env).reduce((prev, next) => {
   prev[`process.env.${next}`] = JSON.stringify(env[next]);
   return prev;
@@ -17,9 +15,10 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
+    publicPath: "/", // Important for React Router
     clean: true,
   },
-  mode: "development",
+  mode: process.env.NODE_ENV || "production",
   resolve: {
     extensions: [".js", ".jsx"],
   },
@@ -40,13 +39,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./public/index.html",
     }),
-    new webpack.DefinePlugin(envKeys), // <-- Inject environment variables
+    new webpack.DefinePlugin(envKeys),
   ],
   devServer: {
     static: path.resolve(__dirname, "dist"),
     port: 3000,
     hot: true,
     open: true,
-    historyApiFallback: true,
+    historyApiFallback: true, // Important for React Router
   },
 };
