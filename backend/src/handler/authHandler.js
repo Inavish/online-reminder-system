@@ -1,4 +1,3 @@
-const db = require("../db");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../utils");
 const { findUserByEmail, createUser } = require("../models/auth.model");

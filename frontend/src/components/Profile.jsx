@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { Card, CardContent, Avatar, Typography, Box } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useSelector } from "react-redux";

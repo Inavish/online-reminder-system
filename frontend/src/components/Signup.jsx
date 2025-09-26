@@ -1,5 +1,5 @@
 // src/components/Signup.js
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, TextField, Typography, Stack, Link } from "@mui/material";
 import { authService } from "../services/authService";
@@ -14,12 +14,12 @@ const Signup = () => {
     e.preventDefault();
     authService
       .signUp({ name, email, password })
-      .then((res) => {
+      .then(() => {
         navigate("/login");
         alert("ok");
       })
       .catch((err) => {
-        console.log(err);
+        console.error("Failed to sign up:", err);
       });
   };
 

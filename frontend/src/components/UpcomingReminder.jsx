@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Typography,
   Box,
@@ -10,6 +10,34 @@ import {
 } from "@mui/material";
 import { reminderService } from "../services/reminderService";
 
+const ReminderList = ({ r, index, handleDelete }) => {
+  return (
+    <ListItem
+      key={index}
+      divider
+      secondaryAction={
+        <Box>
+          <Button
+            variant="contained"
+            color="error"
+            size="small"
+            onClick={() => handleDelete(r)}
+          >
+            Delete
+          </Button>
+        </Box>
+      }
+    >
+      <ListItemText
+        primary={r.title}
+        secondary={`${r.description || ""} — ${new Date(
+          r.sent_at
+        ).toLocaleString()}`}
+      />
+    </ListItem>
+  );
+};
+
 const UpcomingReminder = ({ refreshKey }) => {
   const [reminders, setReminders] = useState([]);
 
@@ -20,19 +48,19 @@ const UpcomingReminder = ({ refreshKey }) => {
         setReminders(res.data);
       })
       .catch((err) => {
-        console.log("err:", err);
+        console.error("Failed to load upcoming reminders:", err);
       });
   };
 
   const handleDelete = (r) => {
     reminderService
       .deleteReminder(r.id)
-      .then((res) => {
+      .then(() => {
         alert("Reminder Deleted:", r.title);
         fetchUpcomingReminders();
       })
       .catch((err) => {
-        console.log(err);
+        console.error("Failed to delete reminder:", err);
       });
   };
 
@@ -50,29 +78,12 @@ const UpcomingReminder = ({ refreshKey }) => {
       ) : (
         <List>
           {reminders.map((r, index) => (
-            <ListItem
-              key={index}
-              divider
-              secondaryAction={
-                <Box>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    size="small"
-                    onClick={() => handleDelete(r)}
-                  >
-                    Delete
-                  </Button>
-                </Box>
-              }
-            >
-              <ListItemText
-                primary={r.title}
-                secondary={`${r.description || ""} — ${new Date(
-                  r.sent_at
-                ).toLocaleString()}`}
-              />
-            </ListItem>
+            <ReminderList
+              key={r.id ?? index}
+              r={r}
+              index={index}
+              handleDelete={handleDelete}
+            />
           ))}
         </List>
       )}

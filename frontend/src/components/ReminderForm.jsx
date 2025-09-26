@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Typography,
   Button,
@@ -22,7 +22,6 @@ const ReminderForm = ({ onCreated }) => {
       alert("Please choose a future date and time.");
       return;
     }
-    console.log("check===>", new Date(datetime).toISOString());
 
     reminderService
       .createReminder({
@@ -30,15 +29,14 @@ const ReminderForm = ({ onCreated }) => {
         description,
         send_at: new Date(datetime).toISOString(),
       })
-      .then((res) => {
-        console.log(res);
+      .then(() => {
         alert("Reminder Created");
         if (typeof onCreated === "function") {
           onCreated();
         }
       })
       .catch((err) => {
-        console.log("err:", err);
+        console.error("Failed to create reminder:", err);
       });
     setTitle("");
     setDescription("");

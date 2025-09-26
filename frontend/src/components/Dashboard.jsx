@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Box } from "@mui/material";
 import Navbar from "./Navbar";
 import ReminderForm from "./ReminderForm";

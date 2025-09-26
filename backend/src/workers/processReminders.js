@@ -6,11 +6,11 @@ const processDueReminders = async () => {
   const reminders = await getDueReminders(now);
 
   if (!reminders || reminders.length === 0) {
-    console.log("✅ No due reminders to process at", now);
+    console.info("✅ No due reminders to process at", now);
     return;
   }
 
-  console.log(`🔔 Found ${reminders.length} due reminders to process`);
+  console.info(`🔔 Found ${reminders.length} due reminders to process`);
 
   for (const r of reminders) {
     try {
@@ -20,7 +20,7 @@ const processDueReminders = async () => {
         text: r.description || "",
       });
       await markAsSent(r.id);
-      console.log(`Sent reminder to ${r.id}`);
+      console.info(`Sent reminder to ${r.id}`);
     } catch (e) {
       console.error("Email failed", e);
     }

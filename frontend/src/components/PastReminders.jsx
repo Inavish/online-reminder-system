@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Typography,
   Box,
@@ -20,7 +20,7 @@ const PastReminders = () => {
         setReminders(res.data);
       })
       .catch((err) => {
-        console.log("err:", err);
+        console.error("Failed to load past reminders:", err);
       });
   };
 
@@ -32,7 +32,7 @@ const PastReminders = () => {
         fetchPastReminders();
       })
       .catch((err) => {
-        console.log(err);
+        console.error("Failed to delete reminder:", err);
       });
   };
 

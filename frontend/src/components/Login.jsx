@@ -1,5 +1,4 @@
-// src/components/Login.js
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, TextField, Typography, Stack, Link } from "@mui/material";
 import { authService } from "../services/authService";
@@ -71,7 +70,7 @@ const Login = () => {
       </Box>
 
       <Typography mt={2}>
-        Don't have an account?{" "}
+        Don&apos;t have an account?
         <Link
           component="button"
           variant="body2"

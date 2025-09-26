@@ -16,6 +16,6 @@ app.get("/", (req, res) => res.json({ ok: true }));
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
-  console.log("Server listening on", port);
+  console.info("Server listening on", port);
   startCron();
 });

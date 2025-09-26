@@ -5,7 +5,9 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "migrate": "knex --knexfile src/config/knexfile.js migrate:latest"
+    "migrate": "knex --knexfile src/config/knexfile.js migrate:latest",
+    "lint": "eslint \"**/*.js\"",
+    "lint:fix": "eslint \"**/*.js\" --fix"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

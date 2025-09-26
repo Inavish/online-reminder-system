@@ -1,8 +1,7 @@
-import React from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const WelcomePage = ({}) => {
+const WelcomePage = () => {
   const navigate = useNavigate();
   const handleLogin = () => navigate("/login");
   const handleSignup = () => navigate("/signup");
