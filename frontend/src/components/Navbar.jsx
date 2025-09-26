@@ -16,6 +16,9 @@ const Navbar = () => {
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           Online Reminder App
         </Typography>
+        <Button color="inherit" onClick={() => navigate("/dashboard")}>
+          Main
+        </Button>
         <Button color="inherit" onClick={() => navigate("/profile")}>
           Profile
         </Button>

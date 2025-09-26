@@ -3,9 +3,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, TextField, Typography, Stack, Link } from "@mui/material";
 import { authService } from "../services/authService";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/actions/userActions";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -15,12 +18,14 @@ const Login = () => {
       .login({ email, password })
       .then((res) => {
         alert("Login successful!");
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        dispatch(setUser(res.data.user));
         localStorage.setItem("token", res?.data?.token);
         navigate("/dashboard");
       })
       .catch((err) => {
         console.error(err);
-        alert(err.response.data.error || "Login failed");
+        alert(err?.response?.data?.error || "Login failed");
       });
   };
 
