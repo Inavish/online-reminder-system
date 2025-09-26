@@ -10,6 +10,9 @@ const createReminder = async (req, res) => {
   const { title, description, send_at } = req.body;
   if (!title || !send_at)
     return res.status(400).json({ error: "title and send_at required" });
+  if (new Date(send_at) < new Date()) {
+    return res.status(400).json({ error: "send_at must be in the future" });
+  }
   const reminder = createReminderInDb({
     user_id: req.user.id,
     title,

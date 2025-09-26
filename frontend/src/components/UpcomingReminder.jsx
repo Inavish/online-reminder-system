@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { reminderService } from "../services/reminderService";
 
-const UpcomingReminder = () => {
+const UpcomingReminder = ({ refreshKey }) => {
   const [reminders, setReminders] = useState([]);
 
   const fetchUpcomingReminders = () => {
@@ -38,7 +38,7 @@ const UpcomingReminder = () => {
 
   useEffect(() => {
     fetchUpcomingReminders();
-  }, []);
+  }, [refreshKey]);
 
   return (
     <Paper elevation={3} sx={{ p: 3, maxWidth: 600, margin: "auto" }}>

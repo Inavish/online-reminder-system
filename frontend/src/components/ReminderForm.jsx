@@ -8,7 +8,7 @@ import {
   Paper,
 } from "@mui/material";
 import { reminderService } from "../services/reminderService";
-const ReminderForm = () => {
+const ReminderForm = ({ onCreated }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [datetime, setDatetime] = useState("");
@@ -16,6 +16,12 @@ const ReminderForm = () => {
   const handleAddReminder = (e) => {
     e.preventDefault();
     if (!title || !datetime) return;
+    const selected = new Date(datetime);
+    const now = new Date();
+    if (selected < now) {
+      alert("Please choose a future date and time.");
+      return;
+    }
     console.log("check===>", new Date(datetime).toISOString());
 
     reminderService
@@ -27,6 +33,9 @@ const ReminderForm = () => {
       .then((res) => {
         console.log(res);
         alert("Reminder Created");
+        if (typeof onCreated === "function") {
+          onCreated();
+        }
       })
       .catch((err) => {
         console.log("err:", err);
@@ -65,6 +74,18 @@ const ReminderForm = () => {
             onChange={(e) => setDatetime(e.target.value)}
             required
             InputLabelProps={{ shrink: true }}
+            inputProps={{
+              min: (() => {
+                const n = new Date();
+                const pad = (v) => String(v).padStart(2, "0");
+                const yyyy = n.getFullYear();
+                const mm = pad(n.getMonth() + 1);
+                const dd = pad(n.getDate());
+                const hh = pad(n.getHours());
+                const mi = pad(n.getMinutes());
+                return `${yyyy}-${mm}-${dd}T${hh}:${mi}`;
+              })(),
+            }}
             fullWidth
           />
           <Button type="submit" variant="contained" color="primary">
