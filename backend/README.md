@@ -83,4 +83,8 @@ Located in `src/models/`. Key functions in `reminder.model.js`:
 
 ## Background processing
 
-`src/workers/cron.js` and `src/workers/processReminders.js` periodically scan for due reminders where `send_at <= now` and `sent = false`, send emails, and mark reminders as sent using `markAsSent`.
+`src/workers/cron.js` schedules a cron job using `node-cron` with the expression `* * * * *` (every minute). On each tick, it calls `processDueReminders()`.
+
+`src/workers/processReminders.js` queries for due reminders (`send_at <= now` and `sent = false`), sends emails via Nodemailer (`sendReminderEmail`), and marks reminders as sent (`markAsSent`).
+
+The cron is started from `server.js` after the Express server starts listening.

@@ -95,7 +95,9 @@ Key fields in `reminders`:
 
 ### Processing
 
-- `backend/src/workers/cron.js` and `processReminders.js` scan due reminders and send emails, marking reminders as sent (`markAsSent`).
+- `backend/src/workers/cron.js` schedules a job with `node-cron` to run every minute (`* * * * *`). It calls `processDueReminders()`.
+- `backend/src/workers/processReminders.js` finds due reminders, sends emails via Nodemailer, and marks them as sent using `markAsSent`.
+- The cron is started from `backend/server.js` after the server begins listening.
 
 ## Frontend
 
