@@ -8,6 +8,10 @@ const getUpComingReminder = () => {
   return api.get("/reminders/upcoming");
 };
 
+const getPastReminders = () => {
+  return api.get("/reminders/past");
+};
+
 const deleteReminder = (rId) => {
   return api.delete(`/reminders/${rId}`);
 };
@@ -15,5 +19,6 @@ const deleteReminder = (rId) => {
 export const reminderService = {
   createReminder,
   getUpComingReminder,
+  getPastReminders,
   deleteReminder,
 };

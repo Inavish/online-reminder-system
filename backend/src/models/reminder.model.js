@@ -14,6 +14,13 @@ async function getUpComingReminderFromDb(user) {
     .orderBy("send_at", "asc");
 }
 
+async function getPastRemindersFromDb(user) {
+  return await db("reminders")
+    .where("user_id", user.id)
+    .andWhere("send_at", "<", new Date())
+    .orderBy("send_at", "desc");
+}
+
 async function getReminderById(id) {
   const reminder = await db("reminders").where("id", id).first();
   return reminder || null;
@@ -55,6 +62,7 @@ module.exports = {
   getDueReminders,
   markAsSent,
   getUpComingReminderFromDb,
+  getPastRemindersFromDb,
   getReminderById,
   deleteReminderById,
 };

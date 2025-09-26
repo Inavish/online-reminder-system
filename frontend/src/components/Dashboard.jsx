@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import Navbar from "./Navbar";
 import ReminderForm from "./ReminderForm";
 import UpcomingReminder from "./UpcomingReminder";
+import PastReminders from "./PastReminders";
 
 const Dashboard = () => {
   return (
@@ -15,6 +16,9 @@ const Dashboard = () => {
 
         <Box flex={1} height="100%">
           <UpcomingReminder />
+        </Box>
+        <Box flex={1} height="100%">
+          <PastReminders />
         </Box>
       </Box>
     </Box>

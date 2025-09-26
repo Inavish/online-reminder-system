@@ -1,6 +1,7 @@
 const {
   createReminderInDb,
   getUpComingReminderFromDb,
+  getPastRemindersFromDb,
   getReminderById,
   deleteReminderById,
 } = require("../models/reminder.model");
@@ -21,6 +22,12 @@ const createReminder = async (req, res) => {
 
 const getUpComingReminder = async (req, res) => {
   const reminders = await getUpComingReminderFromDb(req.user);
+
+  res.json(reminders);
+};
+
+const getPastReminders = async (req, res) => {
+  const reminders = await getPastRemindersFromDb(req.user);
   res.json(reminders);
 };
 
@@ -42,4 +49,9 @@ const deleteReminder = async (req, res) => {
   }
 };
 
-module.exports = { createReminder, getUpComingReminder, deleteReminder };
+module.exports = {
+  createReminder,
+  getUpComingReminder,
+  getPastReminders,
+  deleteReminder,
+};

@@ -10,12 +10,12 @@ import {
 } from "@mui/material";
 import { reminderService } from "../services/reminderService";
 
-const UpcomingReminder = () => {
+const PastReminders = () => {
   const [reminders, setReminders] = useState([]);
 
-  const fetchUpcomingReminders = () => {
+  const fetchPastReminders = () => {
     reminderService
-      .getUpComingReminder()
+      .getPastReminders()
       .then((res) => {
         setReminders(res.data);
       })
@@ -27,9 +27,9 @@ const UpcomingReminder = () => {
   const handleDelete = (r) => {
     reminderService
       .deleteReminder(r.id)
-      .then((res) => {
-        alert("Reminder Deleted:", r.title);
-        fetchUpcomingReminders();
+      .then(() => {
+        alert("Reminder Deleted: " + r.title);
+        fetchPastReminders();
       })
       .catch((err) => {
         console.log(err);
@@ -37,16 +37,16 @@ const UpcomingReminder = () => {
   };
 
   useEffect(() => {
-    fetchUpcomingReminders();
+    fetchPastReminders();
   }, []);
 
   return (
     <Paper elevation={3} sx={{ p: 3, maxWidth: 600, margin: "auto" }}>
       <Typography variant="h5" gutterBottom>
-        Upcoming Reminders
+        Past Reminders
       </Typography>
       {reminders.length === 0 ? (
-        <Typography>No reminders yet.</Typography>
+        <Typography>No past reminders.</Typography>
       ) : (
         <List>
           {reminders.map((r, index) => (
@@ -69,7 +69,7 @@ const UpcomingReminder = () => {
               <ListItemText
                 primary={r.title}
                 secondary={`${r.description || ""} — ${new Date(
-                  r.sent_at
+                  r.send_at
                 ).toLocaleString()}`}
               />
             </ListItem>
@@ -80,4 +80,4 @@ const UpcomingReminder = () => {
   );
 };
 
-export default UpcomingReminder;
+export default PastReminders;
