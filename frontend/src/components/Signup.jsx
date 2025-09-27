@@ -1,7 +1,15 @@
 // src/components/Signup.js
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, TextField, Typography, Stack, Link } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Stack,
+  Link,
+  CircularProgress,
+} from "@mui/material";
 import { authService } from "../services/authService";
 
 const Signup = () => {
@@ -9,9 +17,11 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     authService
       .signUp({ name, email, password })
       .then(() => {
@@ -20,6 +30,10 @@ const Signup = () => {
       })
       .catch((err) => {
         console.error("Failed to sign up:", err);
+        alert(err?.response?.data?.error || "Signup failed");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -67,8 +81,17 @@ const Signup = () => {
             fullWidth
             required
           />
-          <Button type="submit" variant="contained" color="primary">
-            Sign Up
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={loading}
+          >
+            {loading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              "Sign Up"
+            )}
           </Button>
         </Stack>
       </Box>

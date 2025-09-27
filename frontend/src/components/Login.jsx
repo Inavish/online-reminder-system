@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, TextField, Typography, Stack, Link } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Stack,
+  Link,
+  CircularProgress,
+} from "@mui/material";
 import { authService } from "../services/authService";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/actions/userActions";
@@ -10,9 +18,11 @@ const Login = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     authService
       .login({ email, password })
       .then((res) => {
@@ -25,6 +35,9 @@ const Login = () => {
       .catch((err) => {
         console.error(err);
         alert(err?.response?.data?.error || "Login failed");
+      })
+      .finally(() => {
+        setLoading(false); // stop loader
       });
   };
 
@@ -63,8 +76,13 @@ const Login = () => {
             fullWidth
             required
           />
-          <Button type="submit" variant="contained" color="primary">
-            Login
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={loading}
+          >
+            {loading ? <CircularProgress size={24} color="inherit" /> : "Login"}
           </Button>
         </Stack>
       </Box>
